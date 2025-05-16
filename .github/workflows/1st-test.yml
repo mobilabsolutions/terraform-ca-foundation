@@ -1,0 +1,13 @@
+test
+- name: Replace tokens
+  # You may pin to the exact commit or the version.
+  # uses: cschleiden/replace-tokens@4d5a042c84c3568b3858b7af9394923d2d5195c9
+  uses: cschleiden/replace-tokens@v1.3
+  with:
+    # 
+    tokenPrefix: # optional, default is #{
+    # 
+    tokenSuffix: # optional, default is }#
+    # 
+    files: # optional, default is #{
+          

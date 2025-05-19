@@ -1,0 +1,53 @@
+name: Terraform Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      Action:
+        description: 'Terraform Action'
+        required: true
+        default: 'Create'
+        type: choice
+        options: 
+          - Create
+          - Destroy
+      Environment:
+        description: 'Environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - prod
+      Location:
+        description: 'Azure Region'
+        required: true
+        default: 'germanywestcentral'
+        type: choice
+        options:
+          - germanywestcentral
+          - westeurope
+
+jobs:
+  tf_plan:
+    uses: ./.github/workflows/tf-plan.yml
+    with:
+      Action: ${{ github.event.inputs.Action }}
+      Environment: ${{ github.event.inputs.Environment }}
+      Location: ${{ github.event.inputs.Location }}
+
+  approval:
+    needs: tf_plan
+    environment: ${{ github.event.inputs.Environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approval Required
+        run: echo "Waiting for approval..."
+
+  tf_apply:
+    needs: approval
+    uses: ./.github/workflows/tf-apply.yml
+    with:
+      Action: ${{ github.event.inputs.Action }}
+      Environment: ${{ github.event.inputs.Environment }}
+      Location: ${{ github.event.inputs.Location }}

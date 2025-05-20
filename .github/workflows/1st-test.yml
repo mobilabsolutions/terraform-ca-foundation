@@ -29,6 +29,7 @@ jobs:
             **/providers.tf
           missing-var-action: none
           missing-var-log: warn
+          log-level: 'debug'
           # variables: |
           #   LOCATION=${{ env.LOCATION }}
           #   ENVIRONMENT=${{ env.ENVIRONMENT }}

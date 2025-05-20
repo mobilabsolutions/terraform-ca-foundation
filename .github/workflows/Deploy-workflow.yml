@@ -28,6 +28,12 @@ on:
           - germanywestcentral
           - westeurope
 
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
 jobs:
   tf_plan:
     uses: ./.github/workflows/tf-plan.yml
@@ -44,10 +50,10 @@ jobs:
       - name: Approval Required
         run: echo "Waiting for approval..."
 
-  tf_apply:
-    needs: approval
-    uses: ./.github/workflows/tf-apply.yml
-    with:
-      Action: ${{ github.event.inputs.Action }}
-      Environment: ${{ github.event.inputs.Environment }}
-      Location: ${{ github.event.inputs.Location }}
+  # tf_apply:
+  #   needs: approval
+  #   uses: ./.github/workflows/tf-apply.yml
+  #   with:
+  #     Action: ${{ github.event.inputs.Action }}
+  #     Environment: ${{ github.event.inputs.Environment }}
+  #     Location: ${{ github.event.inputs.Location }}

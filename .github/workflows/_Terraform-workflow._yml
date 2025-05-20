@@ -1,0 +1,114 @@
+name: Terraform Workflow
+
+on:
+  workflow_call:
+    secrets:
+      gh_pat:
+        description: The GitHub Personal Access Token
+        required: false
+    inputs:
+      working-directory:
+        description: The working directory containing the Terraform project
+        required: true
+        type: string
+      environment:
+        description: The GitHub environment to use for approval on apply
+        required: true
+        type: string
+      client-id:
+        description: The Azure client ID
+        required: true
+        type: string
+
+jobs:
+  plan:
+    runs-on:
+      group: Cloud Foundation
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      ARM_USE_OIDC: true
+      ARM_USE_AZUREAD: true
+      ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ inputs.client-id }}
+      TF_VAR_GITHUB_TOKEN: ${{ secrets.gh_pat }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure with Federated Identity
+        uses: azure/login@v1
+        with:
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ inputs.client-id }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialize Terraform
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          terraform init
+
+      - name: Run Terraform fmt
+        working-directory: ${{ inputs.working-directory }}
+        run: terraform fmt -check -recursive
+
+      - name: Run Terraform validate
+        working-directory: ${{ inputs.working-directory }}
+        run: terraform validate
+
+      - name: Run Terraform plan
+        working-directory: ${{ inputs.working-directory }}
+        run: terraform plan -out=tfplan
+
+      - name: Save Terraform plan output as artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan-${{inputs.environment}}-${{ github.sha }}
+          path: ${{ inputs.working-directory }}/tfplan
+
+  apply:
+    runs-on:
+      group: Cloud Foundation
+    permissions:
+      id-token: write
+      contents: read
+    needs: plan
+    if: github.ref == 'refs/heads/main'
+    environment: ${{ inputs.environment }}
+    env:
+      TF_VAR_GITHUB_TOKEN: ${{ secrets.gh_pat }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure with Federated Identity
+        uses: azure/login@v1
+        with:
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialize Terraform
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          terraform init
+
+      - name: Download Terraform plan artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan-${{inputs.environment}}-${{ github.sha }}
+          path: ${{ inputs.working-directory }}/
+
+      - name: Run Terraform apply
+        working-directory: ${{ inputs.working-directory }}
+        run: terraform apply -auto-approve tfplan

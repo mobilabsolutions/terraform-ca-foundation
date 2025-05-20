@@ -1,0 +1,38 @@
+name: Deploy Platform Management
+permissions: write-all
+
+on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - modules/**
+#       - soa-platform-management-001/**
+#       - .github/workflows/platform-management.yaml
+#       - .github/workflows/terraform.yaml
+#   pull_request:
+#     paths:
+#       - modules/**
+#       - soa-platform-management-001/**
+#       - .github/workflows/platform-management.yaml
+#       - .github/workflows/terraform.yaml
+  workflow_dispatch:
+
+jobs:
+  deploy-eastus:
+    uses: ./.github/workflows/terraform.yaml
+    secrets:
+      gh_pat: ${{ secrets.GH_PAT }}
+    with:
+      working-directory: soa-platform-management-001/eastus
+      environment: platform-management-eastus
+      client-id: ${{ vars.AZURE_CLIENT_ID_EASTUS }}
+
+  deploy-weus:
+    uses: ./.github/workflows/terraform.yaml
+    secrets:
+      gh_pat: ${{ secrets.GH_PAT }}
+    with:
+      working-directory: soa-platform-management-001/weus
+      environment: platform-management-weus
+      client-id: ${{ vars.AZURE_CLIENT_ID_WEUS }}

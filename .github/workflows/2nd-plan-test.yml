@@ -1,23 +1,25 @@
 name: Terraform Plan
 
+# on:
+#   workflow_call:
+#     inputs:
+#       ServiceConnection:
+#         required: true
+#         type: string
+#       WorkingDirectory:
+#         required: true
+#         type: string
+#       Environment:
+#         required: true
+#         type: string
+#       Action:
+#         required: true
+#         type: string
+
 on:
-  workflow_call:
-    inputs:
-      ServiceConnection:
-        required: true
-        type: string
-      WorkingDirectory:
-        required: true
-        type: string
-      Environment:
-        required: true
-        type: string
-      Action:
-        required: true
-        type: string
-      Location:
-        required: true
-        type: string
+  push:
+    branches:
+      - main
 
 jobs:
   tf_plan:
@@ -40,10 +42,11 @@ jobs:
         uses: qetza/replacetokens-action@v1
         id: replace-tokens
         with:
-          root: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
+          root: "${{ github.workspace }}/germanywestcentral/dev"
           
           sources: |
             *.tfvars
+            # terraform.tfvars
           missing-var-action: none
           missing-var-log: warn
           log-level: 'debug'

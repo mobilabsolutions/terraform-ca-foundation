@@ -13,21 +13,17 @@ jobs:
       - name: Replace tokens in .tfvars and .tf
         # You may pin to the exact commit or the version.
         # uses: cschleiden/replace-tokens@4d5a042c84c3568b3858b7af9394923d2d5195c9
-        uses: cschleiden/replace-tokens@v1.3
+        uses: qetza/replacetokens-action@v1
+        id: replace-tokens
         with:
-          # # 
-          # tokenPrefix: # optional, default is #{
-          # # 
-          # tokenSuffix: # optional, default is }#
-          # 
-          files: 
-            - terraform-research.auto.tfvars
-            - terraform-connectivity.auto.tfvars
-            - terraform.tfvars
-            - main.tf
-            # optional, default is #{
-      
-      - name: Cat TFvars file
-        run: |
-          echo "cat tfvars file"
-          cat terraform.tfvars
+          sources: |
+            **/*.tfvars
+            **/main.tf
+            **/providers.tf
+            
+      - run: |
+          echo "defaults  : ${{ steps.replace-tokens.outputs.defaults }}"
+          echo "files     : ${{ steps.replace-tokens.outputs.files }}"
+          echo "replaced  : ${{ steps.replace-tokens.outputs.replaced }}"
+          echo "tokens    : ${{ steps.replace-tokens.outputs.tokens }}"
+          echo "transforms: ${{ steps.replace-tokens.outputs.transforms }}"

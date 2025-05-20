@@ -43,6 +43,6 @@ jobs:
       - run: |
           pwd
           ls -la
-          du -h -max-depth=1
+          du --max-depth=1 -h
           cat /germanywestcentral/dev/terraform.tfvars
           cat /germanywestcentral/dev/terraform.tf

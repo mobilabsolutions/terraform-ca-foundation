@@ -12,30 +12,6 @@ terraform {
   required_version = ">= 1.11.0"
 }
 
-# provider "azurerm" {
-#   alias           = "connectivity"
-#   subscription_id = "#{SubscriptionIdConnectivity}#"
-#   features {}
-# }
-
-# provider "azurerm" {
-#   alias           = "management"
-#   subscription_id = "#{SubscriptionIdManagement}#"
-#   features {}
-# }
-
-# provider "azurerm" {
-#   alias           = "identity"
-#   subscription_id = "#{SubscriptionIdIdentity}#"
-#   features {}
-# }
-
-# provider "azurerm" {
-#   alias           = "connected"
-#   subscription_id = "#{SubscriptionIdConnected}#"
-#   features {}
-# }
-
 provider "azurerm" {
   alias           = "research"
   subscription_id = "#{SubscriptionIdResearchAndDevelopment}#"

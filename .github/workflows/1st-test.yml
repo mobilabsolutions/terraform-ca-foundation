@@ -28,9 +28,9 @@ jobs:
           missing-var-action: none
           missing-var-log: warn
           log-level: 'debug'
-          # variables: |
-          #   LOCATION=${{ env.LOCATION }}
-          #   ENVIRONMENT=${{ env.ENVIRONMENT }}
+          variables: |
+            LOCATION=${{ env.LOCATION }}
+            ENVIRONMENT=${{ env.ENVIRONMENT }}
             
       - run: |
           echo "defaults  : ${{ steps.replace-tokens.outputs.defaults }}"

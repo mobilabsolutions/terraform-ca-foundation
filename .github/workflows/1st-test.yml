@@ -21,10 +21,11 @@ jobs:
         id: replace-tokens
         with:
           # root: /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
-          root: "${{ github.workspace }}germanywestcentral/dev"
+          root: "${{ github.workspace }}/germanywestcentral/dev"
           
           sources: |
-            terraform.tfvars
+            *.tfvars
+            # terraform.tfvars
           missing-var-action: none
           missing-var-log: warn
           log-level: 'debug'

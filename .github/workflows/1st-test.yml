@@ -21,7 +21,7 @@ jobs:
         uses: qetza/replacetokens-action@v1
         id: replace-tokens
         with:
-          root: /germanywestcentral/dev
+          root: /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
           sources: |
             terraform.tfvars
           missing-var-action: none
@@ -42,9 +42,8 @@ jobs:
 
       - run: |
           pwd
-          ls -la /germanywestcentral/dev
-          ls -la /germanywestcentral/dev/terraform.tfvars
-          ls -la /germanywestcentral/prod
+          cat /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev/terraform.tfvars
+          ls -la /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
           du --max-depth=5 -h
-          cat /germanywestcentral/dev/terraform.tfvars
-          cat /germanywestcentral/prod/terraform.tfvars
+          # cat /germanywestcentral/dev/terraform.tfvars
+          # cat /germanywestcentral/prod/terraform.tfvars

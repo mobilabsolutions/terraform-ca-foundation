@@ -41,5 +41,8 @@ jobs:
           echo "transforms: ${{ steps.replace-tokens.outputs.transforms }}"
 
       - run: |
+          pwd
+          ls -la
+          du -sh -max-depth=1
           cat /germanywestcentral/dev/terraform.tfvars
           cat /germanywestcentral/dev/terraform.tf

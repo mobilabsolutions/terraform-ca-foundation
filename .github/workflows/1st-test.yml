@@ -45,5 +45,5 @@ jobs:
           cat /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev/terraform.tfvars
           ls -la /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
           du --max-depth=5 -h
-          # cat /germanywestcentral/dev/terraform.tfvars
-          # cat /germanywestcentral/prod/terraform.tfvars
+          cat /germanywestcentral/dev/terraform.tfvars
+          cat /germanywestcentral/prod/terraform.tfvars

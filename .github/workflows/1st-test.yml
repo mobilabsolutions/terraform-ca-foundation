@@ -16,6 +16,7 @@ jobs:
         uses: qetza/replacetokens-action@v1
         id: replace-tokens
         with:
+          root: ${{ github.workspace }}/germanywestcentral/dev
           sources: |
             **/*.tfvars
             **/main.tf

@@ -29,10 +29,10 @@ jobs:
           missing-var-log: warn
           log-level: 'debug'
           variables: >
-            {
-              "LOCATION": "${{ env.LOCATION }}",
-              "ENVIRONMENT": "${{ env.ENVIRONMENT }}"
-            }
+            [
+              ${{ toJSON(vars) }},
+              ${{ toJSON(secrets) }}
+            ]
             
       - run: |
           echo "defaults  : ${{ steps.replace-tokens.outputs.defaults }}"

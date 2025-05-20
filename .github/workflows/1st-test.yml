@@ -28,11 +28,6 @@ jobs:
           missing-var-action: none
           missing-var-log: warn
           log-level: 'debug'
-          variables: >
-            {
-              "LOCATION": "${{ env.LOCATION }}",
-              "ENVIRONMENT": "${{ env.ENVIRONMENT }}"
-            }
             
       - run: |
           echo "defaults  : ${{ steps.replace-tokens.outputs.defaults }}"
@@ -46,7 +41,9 @@ jobs:
           # cat /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev/terraform.tfvars
           # ls -la /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
           # du --max-depth=5 -h
+          echo "-------DEV----------"
           cat "${{ github.workspace }}/germanywestcentral/dev/terraform.tfvars"
+          echo "-------PROD----------"
           cat "${{ github.workspace }}/germanywestcentral/prod/terraform.tfvars"
           
 

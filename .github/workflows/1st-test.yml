@@ -21,7 +21,7 @@ jobs:
         id: replace-tokens
         with:
           # root: /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
-          root: "${{ github.workspace }}/terraform-ca-foundation/germanywestcentral/dev"
+          root: "${{ github.workspace }}germanywestcentral/dev"
           
           sources: |
             terraform.tfvars
@@ -43,9 +43,10 @@ jobs:
 
       - run: |
           pwd
-          cat /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev/terraform.tfvars
-          ls -la /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
-          du --max-depth=5 -h
+          # cat /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev/terraform.tfvars
+          # ls -la /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
+          # du --max-depth=5 -h
           cat "${{ github.workspace }}/germanywestcentral/dev/terraform.tfvars"
+          cat "${{ github.workspace }}/germanywestcentral/prod/terraform.tfvars"
           
 

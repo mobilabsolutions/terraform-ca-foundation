@@ -23,7 +23,7 @@ jobs:
         with:
           root: /germanywestcentral/dev
           sources: |
-            **/*.tfvars
+            terraform.tfvars
           missing-var-action: none
           missing-var-log: warn
           log-level: 'debug'
@@ -42,7 +42,9 @@ jobs:
 
       - run: |
           pwd
-          ls -la
+          ls -la /germanywestcentral/dev
+          ls -la /germanywestcentral/dev/terraform.tfvars
+          ls -la /germanywestcentral/prod
           du --max-depth=5 -h
           cat /germanywestcentral/dev/terraform.tfvars
-          cat /germanywestcentral/dev/terraform.tf
+          cat /germanywestcentral/prod/terraform.tfvars

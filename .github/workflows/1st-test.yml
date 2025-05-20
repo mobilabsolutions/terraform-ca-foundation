@@ -6,6 +6,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # env:
+    #   LOCATION: ${{ vars.LOCATION }}
+    #   ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+    #   TIMEZONE: ${{ vars.TIMEZONE }}
+    #   LOCATIONABBREVIATION: ${{ vars.LOCATIONABBREVIATION }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -16,10 +21,17 @@ jobs:
         uses: qetza/replacetokens-action@v1
         id: replace-tokens
         with:
+          root: /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
           sources: |
-            **/*.tfvars
-            **/main.tf
-            **/providers.tf
+            terraform.tfvars
+          missing-var-action: none
+          missing-var-log: warn
+          log-level: 'debug'
+          variables: >
+            {
+              "LOCATION": "${{ env.LOCATION }}",
+              "ENVIRONMENT": "${{ env.ENVIRONMENT }}"
+            }
             
       - run: |
           echo "defaults  : ${{ steps.replace-tokens.outputs.defaults }}"
@@ -27,3 +39,11 @@ jobs:
           echo "replaced  : ${{ steps.replace-tokens.outputs.replaced }}"
           echo "tokens    : ${{ steps.replace-tokens.outputs.tokens }}"
           echo "transforms: ${{ steps.replace-tokens.outputs.transforms }}"
+
+      - run: |
+          pwd
+          cat /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev/terraform.tfvars
+          ls -la /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
+          du --max-depth=5 -h
+          # cat /germanywestcentral/dev/terraform.tfvars
+          # cat /germanywestcentral/prod/terraform.tfvars

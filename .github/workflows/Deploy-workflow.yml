@@ -1,4 +1,4 @@
-name: Terraform Workflow
+name: My-TF-Deploy-Workflow 
 
 on:
   workflow_dispatch:

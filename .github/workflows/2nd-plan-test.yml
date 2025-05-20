@@ -1,4 +1,4 @@
-name: Terraform Plan
+name: Terraform Plan - StandAlone
 
 # on:
 #   workflow_call:
@@ -17,9 +17,10 @@ name: Terraform Plan
 #         type: string
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+#   push:
+#     branches:
+#       - main
 
 jobs:
   tf_plan:

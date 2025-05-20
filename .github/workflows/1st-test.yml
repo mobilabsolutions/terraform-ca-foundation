@@ -9,11 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    # env:
-    #   LOCATION: ${{ vars.LOCATION }}
-    #   ENVIRONMENT: ${{ vars.ENVIRONMENT }}
-    #   TIMEZONE: ${{ vars.TIMEZONE }}
-    #   LOCATIONABBREVIATION: ${{ vars.LOCATIONABBREVIATION }}
+    environment: dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,7 +20,9 @@ jobs:
         uses: qetza/replacetokens-action@v1
         id: replace-tokens
         with:
-          root: /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
+          # root: /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
+          root: "${{ github.workspace }}/terraform-ca-foundation/germanywestcentral/dev"
+          
           sources: |
             terraform.tfvars
           missing-var-action: none
@@ -48,5 +46,6 @@ jobs:
           cat /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev/terraform.tfvars
           ls -la /home/runner/work/terraform-ca-foundation/terraform-ca-foundation/germanywestcentral/dev
           du --max-depth=5 -h
-          cat /germanywestcentral/dev/terraform.tfvars
-          cat /germanywestcentral/prod/terraform.tfvars
+          cat "${{ github.workspace }}/germanywestcentral/dev/terraform.tfvars"
+          
+

@@ -6,12 +6,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    environment: dev
-    env:
-      LOCATION: ${{ vars.LOCATION }}
-      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
-      TIMEZONE: ${{ vars.TIMEZONE }}
-      LOCATIONABBREVIATION: ${{ vars.LOCATIONABBREVIATION }}
+    # env:
+    #   LOCATION: ${{ vars.LOCATION }}
+    #   ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+    #   TIMEZONE: ${{ vars.TIMEZONE }}
+    #   LOCATIONABBREVIATION: ${{ vars.LOCATIONABBREVIATION }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,8 +28,8 @@ jobs:
           missing-var-log: warn
           log-level: 'debug'
           variables: |
-            LOCATION=${{ env.LOCATION }}
-            ENVIRONMENT=${{ env.ENVIRONMENT }}
+            LOCATION = ${{ env.LOCATION }}
+            ENVIRONMENT = ${{ env.ENVIRONMENT }}
             
       - run: |
           echo "defaults  : ${{ steps.replace-tokens.outputs.defaults }}"

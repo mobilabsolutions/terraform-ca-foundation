@@ -10,7 +10,8 @@ jobs:
     env:
       LOCATION: ${{ vars.LOCATION }}
       ENVIRONMENT: ${{ vars.ENVIRONMENT }}
-
+      TIMEZONE: ${{ vars.TIMEZONE }}
+      LOCATIONABBREVIATION: ${{ vars.LOCATIONABBREVIATION }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,11 +22,16 @@ jobs:
         uses: qetza/replacetokens-action@v1
         id: replace-tokens
         with:
-          root: ${{ github.workspace }}/germanywestcentral/dev
+          root: /germanywestcentral/dev
           sources: |
             **/*.tfvars
             **/main.tf
             **/providers.tf
+          missing-var-action: none
+          missing-var-log: warn
+          # variables: |
+          #   LOCATION=${{ env.LOCATION }}
+          #   ENVIRONMENT=${{ env.ENVIRONMENT }}
             
       - run: |
           echo "defaults  : ${{ steps.replace-tokens.outputs.defaults }}"

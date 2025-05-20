@@ -39,3 +39,7 @@ jobs:
           echo "replaced  : ${{ steps.replace-tokens.outputs.replaced }}"
           echo "tokens    : ${{ steps.replace-tokens.outputs.tokens }}"
           echo "transforms: ${{ steps.replace-tokens.outputs.transforms }}"
+
+      - run: |
+          cat /germanywestcentral/dev/terraform.tfvars
+          cat /germanywestcentral/dev/terraform.tf

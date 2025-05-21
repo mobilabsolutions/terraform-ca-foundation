@@ -14,10 +14,14 @@ terraform {
 
 provider "azurerm" {
   alias           = "research"
-  subscription_id = "#{SubscriptionIdResearchAndDevelopment}#"
-  client_id       = "#{ARM_CLIENT_ID}#"
-  client_secret   = "#{ARM_CLIENT_SECRET}#"
-  tenant_id       = "#{ARM_TENANT_ID}#"
+  # subscription_id = "#{SubscriptionIdResearchAndDevelopment}#"
+  # client_id       = "#{ARM_CLIENT_ID}#"
+  # client_secret   = "#{ARM_CLIENT_SECRET}#"
+  # tenant_id       = "#{ARM_TENANT_ID}#"
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id
   features {}
 }
 

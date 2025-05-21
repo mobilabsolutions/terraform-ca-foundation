@@ -88,9 +88,17 @@ jobs:
         run: |
           PLAN_FILE="${{ github.run_number }}.tfplan"
           if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
-            terraform plan -destroy -out $PLAN_FILE
+            terraform plan -destroy -out $PLAN_FILE \
+              -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+              -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+              -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
+              -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
           else
-            terraform plan -out $PLAN_FILE
+            terraform plan -out $PLAN_FILE\
+              -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+              -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+              -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
+              -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
           fi
 
       # - name: Upload tfplan as artifact

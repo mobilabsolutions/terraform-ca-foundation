@@ -1,3 +1,8 @@
+variable "client_id" {}
+variable "client_secret" {}
+variable "tenant_id" {}
+variable "subscription_id" {}
+
 variable "location" {
   description = "(Required) The location of the Resource Group."
 }
@@ -14,3 +19,4 @@ variable "time_zone" {
   description = "(Required) Specifies the timezone."
   type        = string
 }
+

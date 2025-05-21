@@ -59,12 +59,12 @@ jobs:
         with:
           terraform_version: latest
 
-      - name: Login to Azure with Federated Identity
-        uses: azure/login@v1
-        with:
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.SUBSCRIPTIONIDRESEARCHANDDEVELOPMENT }}
-          client-id: ${{ secrets.ARM_CLIENT_ID }}
+      # - name: Login to Azure with Federated Identity
+      #   uses: azure/login@v1
+      #   with:
+      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      #     subscription-id: ${{ secrets.SUBSCRIPTIONIDRESEARCHANDDEVELOPMENT }}
+      #     client-id: ${{ secrets.ARM_CLIENT_ID }}
 
       - name: Terraform Init
         # working-directory: ${{ inputs.WorkingDirectory }}

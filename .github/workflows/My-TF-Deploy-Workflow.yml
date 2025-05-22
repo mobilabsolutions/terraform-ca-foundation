@@ -42,13 +42,24 @@ jobs:
       Environment: ${{ github.event.inputs.Environment }}
       Location: ${{ github.event.inputs.Location }}
 
-  approval:
-    needs: tf_plan
-    environment: ${{ github.event.inputs.Environment }}
+  # approval:
+  #   needs: tf_plan
+  #   environment: ${{ github.event.inputs.Environment }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Approval Required
+  #       run: echo "Waiting for approval..."
+
+  approval_gate:
+    name: Await Manual Approval
     runs-on: ubuntu-latest
+    needs: tf_plan
+    environment:
+      name: prod          # <-- окружение с approval reviewer'ами
+      url: https://portal.azure.com  # можно указать ссылку на портал или Pull Request
     steps:
-      - name: Approval Required
-        run: echo "Waiting for approval..."
+      - name: Wait for Approval
+        run: echo "Waiting for manual approval..."
 
   # tf_apply:
   #   needs: approval

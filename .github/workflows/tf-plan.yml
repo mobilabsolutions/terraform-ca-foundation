@@ -71,11 +71,11 @@ jobs:
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
         run: |
           terraform init 
-          # \
-          #   -backend-config="resource_group_name=$TFSTATE_RG" \
-          #   -backend-config="storage_account_name=$TFSTATE_STORAGE" \
-          #   -backend-config="container_name=$TFSTATE_CONTAINER" \
-          #   -backend-config="key=${{ inputs.Environment }}-terraform.tfstate"
+        # \
+        #   -backend-config="resource_group_name=$TFSTATE_RG" \
+        #   -backend-config="storage_account_name=$TFSTATE_STORAGE" \
+        #   -backend-config="container_name=$TFSTATE_CONTAINER" \
+        #   -backend-config="key=${{ inputs.Environment }}-terraform.tfstate"
 
       - name: Terraform Validate
         # working-directory: ${{ inputs.WorkingDirectory }}

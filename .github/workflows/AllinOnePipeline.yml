@@ -1,0 +1,130 @@
+name: My-TF-Deploy-Workflow 
+
+on:
+  workflow_dispatch:
+    inputs:
+      Action:
+        description: 'Terraform Action'
+        required: true
+        default: 'Create'
+        type: choice
+        options: 
+          - Create
+          - Destroy
+      Environment:
+        description: 'Environment'
+        required: true
+        default: 'dev'
+        type: choicename: Terraform Plan
+
+on:
+  workflow_call:
+    inputs:
+      # ServiceConnection:
+      #   required: true
+      #   type: string
+      # WorkingDirectory:
+      #   required: true
+      #   type: string
+      Environment:
+        required: true
+        type: string
+      Action:
+        required: true
+        type: string
+      Location:
+        required: true
+        type: string
+
+jobs:
+  tf_plan:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.Environment }}
+    # env:
+    #   TF_VAR_ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+    #   TF_VAR_ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+    #   TF_VAR_ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+    #   TF_VAR_ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    #   TF_VAR_TFSTATE_RG: ${{ secrets.TFSTATE_RG }}
+    #   TF_VAR_TFSTATE_STORAGE: ${{ secrets.TFSTATE_STORAGE }}
+    #   TF_VAR_TFSTATE_CONTAINER: ${{ secrets.TFSTATE_CONTAINER }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Replace tokens in .tfvars and .tf
+        uses: qetza/replacetokens-action@v1
+        id: replace-tokens
+        with:
+          root: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
+          
+          sources: |
+            *.tfvars
+            providers.tf
+          missing-var-action: none
+          missing-var-log: warn
+          log-level: 'debug'
+          variables: >
+            [
+              ${{ toJSON(vars) }},
+              ${{ toJSON(secrets) }}
+            ]
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
+
+      # - name: Login to Azure with Federated Identity
+      #   uses: azure/login@v1
+      #   with:
+      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      #     subscription-id: ${{ secrets.SUBSCRIPTIONIDRESEARCHANDDEVELOPMENT }}
+      #     client-id: ${{ secrets.ARM_CLIENT_ID }}
+
+      - name: Terraform Init
+        # working-directory: ${{ inputs.WorkingDirectory }}
+        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
+        run: |
+          terraform init 
+        # \
+        #   -backend-config="resource_group_name=$TFSTATE_RG" \
+        #   -backend-config="storage_account_name=$TFSTATE_STORAGE" \
+        #   -backend-config="container_name=$TFSTATE_CONTAINER" \
+        #   -backend-config="key=${{ inputs.Environment }}-terraform.tfstate"
+
+      - name: Terraform Validate
+        # working-directory: ${{ inputs.WorkingDirectory }}
+        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
+        run: terraform validate
+
+      - name: Terraform Plan
+
+        # working-directory: ${{ inputs.WorkingDirectory }}
+        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
+        run: |
+          echo "ARM_CLIENT_ID env: $ARM_CLIENT_ID"
+          echo "ARM_CLIENT_ID secret: ${{ secrets.ARM_CLIENT_ID }}"
+          printenv
+          echo "${{ secrets.ARM_CLIENT_ID }}"
+          PLAN_FILE="${{ github.run_number }}.tfplan"
+          if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
+            terraform plan -destroy -out $PLAN_FILE \
+              -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+              -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+              -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
+              -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+          else
+            terraform plan -out $PLAN_FILE\
+              -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+              -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+              -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
+              -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+          fi
+
+            - name: Upload tfplan as artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: Terraform_Plan
+                path: ${{ inputs.WorkingDirectory }}/${{ github.run_number }}.tfplan

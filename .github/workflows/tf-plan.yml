@@ -23,14 +23,6 @@ jobs:
   tf_plan:
     runs-on: ubuntu-latest
     environment: ${{ inputs.Environment }}
-    env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      TFSTATE_RG: ${{ secrets.TFSTATE_RG }}
-      TFSTATE_STORAGE: ${{ secrets.TFSTATE_STORAGE }}
-      TFSTATE_CONTAINER: ${{ secrets.TFSTATE_CONTAINER }}
 
     steps:
       - name: Checkout code
@@ -83,6 +75,14 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          TFSTATE_RG: ${{ secrets.TFSTATE_RG }}
+          TFSTATE_STORAGE: ${{ secrets.TFSTATE_STORAGE }}
+          TFSTATE_CONTAINER: ${{ secrets.TFSTATE_CONTAINER }}
         # working-directory: ${{ inputs.WorkingDirectory }}
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
         run: |

@@ -6,35 +6,11 @@ terraform {
     }
   }
   backend "azurerm" {
-    subscription_id = "#{SubscriptionIdManagement}#"
+    subscription_id = "#{SubscriptionIdResearchAndDevelopment}#"
   }
 
   required_version = ">= 1.11.0"
 }
-
-# provider "azurerm" {
-#   alias           = "connectivity"
-#   subscription_id = "#{SubscriptionIdConnectivity}#"
-#   features {}
-# }
-
-# provider "azurerm" {
-#   alias           = "management"
-#   subscription_id = "#{SubscriptionIdManagement}#"
-#   features {}
-# }
-
-# provider "azurerm" {
-#   alias           = "identity"
-#   subscription_id = "#{SubscriptionIdIdentity}#"
-#   features {}
-# }
-
-# provider "azurerm" {
-#   alias           = "connected"
-#   subscription_id = "#{SubscriptionIdConnected}#"
-#   features {}
-# }
 
 provider "azurerm" {
   alias           = "research"
@@ -75,10 +51,6 @@ locals {
   }
 
   virtual_network_ids = {
-    # connectivity = module.cnty_virtual_network.virtual_network_id,
-    # management   = module.mgmt_virtual_network.virtual_network_id,
-    # identity     = module.idty_virtual_network.virtual_network_id,
-    # connected    = module.conn_virtual_network.virtual_network_id,
     research = module.rsch_virtual_network.virtual_network_id
   }
 }

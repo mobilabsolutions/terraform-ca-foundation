@@ -49,7 +49,7 @@ jobs:
         uses: qetza/replacetokens-action@v1
         id: replace-tokens
         with:
-          root: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
+          root: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
           
           sources: |
             *.tfvars
@@ -77,7 +77,7 @@ jobs:
 
       - name: Terraform Init
         # working-directory: ${{ inputs.WorkingDirectory }}
-        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
+        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
         run: |
           terraform init 
         # \
@@ -88,13 +88,13 @@ jobs:
 
       - name: Terraform Validate
         # working-directory: ${{ inputs.WorkingDirectory }}
-        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
+        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
         run: terraform validate
 
       - name: Terraform Plan
 
         # working-directory: ${{ inputs.WorkingDirectory }}
-        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
+        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
         run: |
           echo "ARM_CLIENT_ID env: $ARM_CLIENT_ID"
           echo "ARM_CLIENT_ID secret: ${{ secrets.ARM_CLIENT_ID }}"

@@ -41,6 +41,9 @@ jobs:
       Action: ${{ github.event.inputs.Action }}
       Environment: ${{ github.event.inputs.Environment }}
       Location: ${{ github.event.inputs.Location }}
+    environment: ${{ github.event.inputs.Environment }}   
+    
+    
 
   # approval:
   #   needs: tf_plan

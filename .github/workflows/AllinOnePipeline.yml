@@ -86,6 +86,11 @@ jobs:
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
         run: |
 
+          terraform plan \
+            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+            -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
+            -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
   # echo "ARM_CLIENT_ID env: $ARM_CLIENT_ID"
   # echo "ARM_CLIENT_ID secret: ${{ secrets.ARM_CLIENT_ID }}"
   # printenv
@@ -100,11 +105,6 @@ jobs:
   # echo "-------research-foundation.tf----------"
   # cat "${{ github.workspace }}/germanywestcentral/dev/research-foundation.tf"
 
-          terraform plan \
-            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
-            -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-            -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
 
       # PLAN_FILE="${{ github.run_number }}.tfplan"
       # if [[ "${{ inputs.Action }}" == "Destroy" ]]; then

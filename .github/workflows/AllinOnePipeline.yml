@@ -100,6 +100,16 @@ jobs:
           echo "ARM_CLIENT_ID secret: ${{ secrets.ARM_CLIENT_ID }}"
           printenv
           echo "${{ secrets.ARM_CLIENT_ID }}"
+
+          echo "-------terraform.tfvars----------"
+          cat "${{ github.workspace }}/germanywestcentral/dev/terraform.tfvars"
+          echo "-------providers----------"
+          cat "${{ github.workspace }}/germanywestcentral/prod/providers.tf"
+          echo "-------terraform-research.auto.tfvars----------"
+          cat "${{ github.workspace }}/germanywestcentral/prod/terraform-research.auto.tfvars"
+          echo "-------research-foundation.tf----------"
+          cat "${{ github.workspace }}/germanywestcentral/prod/research-foundation.tf"
+
           PLAN_FILE="${{ github.run_number }}.tfplan"
           if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
             terraform plan -destroy -out $PLAN_FILE \

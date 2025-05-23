@@ -89,7 +89,7 @@ jobs:
 
           # echo subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}
           # echo client_id=${{ secrets.ARM_CLIENT_ID }} 
-          PRINTENV
+          printenv
           PLAN_FILE="${{ github.run_number }}.tfplan"
           if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
             terraform plan -destroy -out $PLAN_FILE \

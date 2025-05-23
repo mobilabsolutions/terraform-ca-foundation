@@ -125,8 +125,8 @@ jobs:
               -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
           fi
 
-            - name: Upload tfplan as artifact
-              uses: actions/upload-artifact@v4
-              with:
-                name: Terraform_Plan
-                path: ${{ inputs.WorkingDirectory }}/${{ github.run_number }}.tfplan
+        - name: Upload tfplan as artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: Terraform_Plan
+            path: ${{ inputs.WorkingDirectory }}/${{ github.run_number }}.tfplan

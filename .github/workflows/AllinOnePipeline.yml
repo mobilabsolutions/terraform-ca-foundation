@@ -15,26 +15,10 @@ on:
         description: 'Environment'
         required: true
         default: 'dev'
-        type: choicename: Terraform Plan
-
-on:
-  workflow_call:
-    inputs:
-      # ServiceConnection:
-      #   required: true
-      #   type: string
-      # WorkingDirectory:
-      #   required: true
-      #   type: string
-      Environment:
-        required: true
-        type: string
-      Action:
-        required: true
-        type: string
-      Location:
-        required: true
-        type: string
+        type: choice
+        options:
+          - germanywestcentral
+          - westeurope
 
 jobs:
   tf_plan:

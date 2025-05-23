@@ -85,19 +85,20 @@ jobs:
         id: plan
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
         run: |
-          echo "ARM_CLIENT_ID env: $ARM_CLIENT_ID"
-          echo "ARM_CLIENT_ID secret: ${{ secrets.ARM_CLIENT_ID }}"
-          printenv
-          echo "${{ secrets.ARM_CLIENT_ID }}"
 
-          echo "-------terraform.tfvars----------"
-          cat "${{ github.workspace }}/germanywestcentral/dev/terraform.tfvars"
-          echo "-------providers----------"
-          cat "${{ github.workspace }}/germanywestcentral/dev/providers.tf"
-          echo "-------terraform-research.auto.tfvars----------"
-          cat "${{ github.workspace }}/germanywestcentral/dev/terraform-research.auto.tfvars"
-          echo "-------research-foundation.tf----------"
-          cat "${{ github.workspace }}/germanywestcentral/dev/research-foundation.tf"
+  # echo "ARM_CLIENT_ID env: $ARM_CLIENT_ID"
+  # echo "ARM_CLIENT_ID secret: ${{ secrets.ARM_CLIENT_ID }}"
+  # printenv
+  # echo "${{ secrets.ARM_CLIENT_ID }}"
+
+  # echo "-------terraform.tfvars----------"
+  # cat "${{ github.workspace }}/germanywestcentral/dev/terraform.tfvars"
+  # echo "-------providers----------"
+  # cat "${{ github.workspace }}/germanywestcentral/dev/providers.tf"
+  # echo "-------terraform-research.auto.tfvars----------"
+  # cat "${{ github.workspace }}/germanywestcentral/dev/terraform-research.auto.tfvars"
+  # echo "-------research-foundation.tf----------"
+  # cat "${{ github.workspace }}/germanywestcentral/dev/research-foundation.tf"
 
           terraform plan \
             -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \

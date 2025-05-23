@@ -17,6 +17,14 @@ on:
         default: 'dev'
         type: choice
         options:
+          - dev
+          - prod
+      Location:
+        description: 'Azure Region'
+        required: true
+        default: 'germanywestcentral'
+        type: choice
+        options:
           - germanywestcentral
           - westeurope
 

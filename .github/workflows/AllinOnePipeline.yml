@@ -50,7 +50,7 @@ jobs:
         uses: qetza/replacetokens-action@v1
         id: replace-tokens
         with:
-          root: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
+          root: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
           
           sources: |
             *.tfvars

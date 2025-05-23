@@ -86,9 +86,8 @@ jobs:
         # working-directory: ${{ inputs.WorkingDirectory }}
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/local_${{ inputs.Environment }}"
         run: |
-
-          # echo subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}
-          # echo client_id=${{ secrets.ARM_CLIENT_ID }} 
+          echo "ARM_CLIENT_ID env: $ARM_CLIENT_ID"
+          echo "ARM_CLIENT_ID secret: ${{ secrets.ARM_CLIENT_ID }}"
           printenv
           echo "${{ secrets.ARM_CLIENT_ID }}"
           PLAN_FILE="${{ github.run_number }}.tfplan"

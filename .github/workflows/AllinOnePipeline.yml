@@ -1,4 +1,4 @@
-name: My-TF-Deploy-Workflow 
+name: All-in-One Pipeline
 
 on:
   workflow_dispatch:

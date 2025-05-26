@@ -117,6 +117,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.Environment }}
+    env:
+      ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

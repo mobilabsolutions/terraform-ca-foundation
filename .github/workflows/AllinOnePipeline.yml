@@ -105,17 +105,9 @@ jobs:
             -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
             -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
           fi
-              
-      # PLAN_FILE="${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan"
-      # PLAN_FILE="${{ github.workflow }}-${{ github.run_number }}.tfplan"
-      # terraform plan \
-        # -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
-        # -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-        # -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-        # -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
   
-        # - name: Upload tfplan as artifact
-        #   uses: actions/upload-artifact@v4
-        #   with:
-        #     name: Terraform_Plan
-        #     path: ${{ inputs.WorkingDirectory }}/${{ github.workflow }}-${{ github.run_number }}.tfplan
+      - name: Upload tfplan as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Terraform_Plan
+          path: ${{ env.PLAN_FILE }}

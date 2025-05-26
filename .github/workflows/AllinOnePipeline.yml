@@ -90,7 +90,7 @@ jobs:
         id: plan
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
         run: |    
-          PLAN_FILE="${{ github.run_number }}.tfplan"
+          PLAN_FILE="${{ github.workflow }}-${{ github.run_number }}.tfplan"
           if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
             terraform plan -destroy -out $PLAN_FILE \
             -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
@@ -116,4 +116,4 @@ jobs:
         #   uses: actions/upload-artifact@v4
         #   with:
         #     name: Terraform_Plan
-        #     path: ${{ inputs.WorkingDirectory }}/${{ github.run_number }}.tfplan
+        #     path: ${{ inputs.WorkingDirectory }}/${{ github.workflow }}-${{ github.run_number }}.tfplan

@@ -90,14 +90,15 @@ jobs:
         id: plan
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
         run: |    
+          # PLAN_FILE="${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan"
           if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
-            terraform plan -destroy -out="${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan" \
+            terraform plan -destroy -out $PLAN_FILE \
               -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
               -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
               -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
               -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
           else
-            terraform plan -out="${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan" \
+            terraform plan -out $PLAN_FILE \
               -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
               -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
               -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \  

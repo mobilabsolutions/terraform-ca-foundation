@@ -9,8 +9,8 @@ on:
         default: 'Create'
         type: choice
         options: 
-          - Create
-          - Destroy
+          - create
+          - destroy
       Environment:
         description: 'Environment'
         required: true

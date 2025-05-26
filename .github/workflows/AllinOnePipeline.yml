@@ -1,4 +1,4 @@
-name: All-in-One Pipeline
+name: All-in-One_Pipeline
 
 on:
   workflow_dispatch:

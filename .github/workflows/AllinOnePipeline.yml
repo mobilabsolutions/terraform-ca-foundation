@@ -91,13 +91,13 @@ jobs:
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
         run: |    
           if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
-            terraform plan -destroy -out ${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan \
+            terraform plan -destroy -out="${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan" \
               -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
               -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
               -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
               -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
           else
-            terraform plan -out ${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan \
+            terraform plan -out="${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan" \
               -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
               -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
               -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \  
@@ -106,10 +106,10 @@ jobs:
         
         # PLAN_FILE="${{ github.workflow }}-${{ github.run_number }}.tfplan"
         # terraform plan \
-        #   -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
-        #   -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-        #   -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-        #   -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+          # -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+          # -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+          # -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
+          # -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
     
         # - name: Upload tfplan as artifact
         #   uses: actions/upload-artifact@v4

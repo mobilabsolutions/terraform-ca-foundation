@@ -89,8 +89,8 @@ jobs:
       - name: Terraform Plan
         id: plan
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
-        run: |    
-          # PLAN_FILE="${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan"
+        run: |   
+          PLAN_FILE="${{ inputs.Action }}-${{ github.workflow }}-${{ github.run_number }}.tfplan"
           if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
             terraform plan -destroy -out $PLAN_FILE \
               -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \

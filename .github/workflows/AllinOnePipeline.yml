@@ -1,4 +1,4 @@
-name: All-in-One_Pipeline
+name: Terraform Pipeline
 
 on:
   workflow_dispatch:
@@ -35,13 +35,6 @@ jobs:
     environment: ${{ inputs.Environment }}
     env:
       ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
-    #   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-    #   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-    #   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-    #   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-    #   TFSTATE_RG: ${{ secrets.TFSTATE_RG }}
-    #   TFSTATE_STORAGE: ${{ secrets.TFSTATE_STORAGE }}
-    #   TFSTATE_CONTAINER: ${{ secrets.TFSTATE_CONTAINER }}
 
     steps:
       - name: Checkout code
@@ -115,8 +108,7 @@ jobs:
     name: Terraform Apply
     needs: tf_plan
     runs-on: ubuntu-latest
-    environment:
-      name: ${{ inputs.Environment }}
+    environment: ${{ inputs.Environment }}
     env:
       ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
     steps:

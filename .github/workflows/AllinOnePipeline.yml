@@ -166,5 +166,5 @@ jobs:
       - name: Terraform Apply
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
         run: |    
-          terraform plan -out terraform.tfplan
+          terraform apply -auto-approve terraform.tfplan
   

@@ -31,34 +31,34 @@ module "rsch_virtual_network" {
   tags                          = local.tags
 }
 
-module "rsch_monitor" {
-  providers = { azurerm = azurerm.research }
-  source    = "../../_modules/monitor"
-  # source = "git::https://dev.azure.com/MobiLab-Solutions-GmbH/Terraform-test/_git/TF-modules//monitor?ref=0.1.7"
+# module "rsch_monitor" {
+#   providers = { azurerm = azurerm.research }
+#   source    = "../../_modules/monitor"
+#   # source = "git::https://dev.azure.com/MobiLab-Solutions-GmbH/Terraform-test/_git/TF-modules//monitor?ref=0.1.7"
 
-  workload              = "research-aleksei"
-  environment           = var.environment
-  location              = var.location
-  location_abbreviation = var.location_abbreviation
-  tags                  = local.tags
-}
+#   workload              = "research-aleksei"
+#   environment           = var.environment
+#   location              = var.location
+#   location_abbreviation = var.location_abbreviation
+#   tags                  = local.tags
+# }
 
-module "rsch_private_dns_resolver" {
-  providers = { azurerm = azurerm.research }
-  source    = "../../_modules/private_dns_resolver"
-  #  source = "git::https://dev.azure.com/MobiLab-Solutions-GmbH/Terraform-test/_git/TF-modules//private_dns_resolver?ref=0.1.7"
+# module "rsch_private_dns_resolver" {
+#   providers = { azurerm = azurerm.research }
+#   source    = "../../_modules/private_dns_resolver"
+#   #  source = "git::https://dev.azure.com/MobiLab-Solutions-GmbH/Terraform-test/_git/TF-modules//private_dns_resolver?ref=0.1.7"
 
-  workload                  = "research-aleksei"
-  environment               = var.environment
-  location                  = var.location
-  location_abbreviation     = var.location_abbreviation
-  virtual_network_id        = module.rsch_virtual_network.virtual_network_id
-  dns_inbound_pe_subnet_id  = module.rsch_virtual_network.subnet_id["snet-dnsie-prod-001"]
-  dns_outbound_pe_subnet_id = module.rsch_virtual_network.subnet_id["snet-dnsoe-prod-001"]
-  dns_forwarding_rules      = var.dns_forwarding_rules
-  virtual_network_ids       = local.virtual_network_ids
-  tags                      = local.tags
-}
+#   workload                  = "research-aleksei"
+#   environment               = var.environment
+#   location                  = var.location
+#   location_abbreviation     = var.location_abbreviation
+#   virtual_network_id        = module.rsch_virtual_network.virtual_network_id
+#   dns_inbound_pe_subnet_id  = module.rsch_virtual_network.subnet_id["snet-dnsie-prod-001"]
+#   dns_outbound_pe_subnet_id = module.rsch_virtual_network.subnet_id["snet-dnsoe-prod-001"]
+#   dns_forwarding_rules      = var.dns_forwarding_rules
+#   virtual_network_ids       = local.virtual_network_ids
+#   tags                      = local.tags
+# }
 
 # module "rsch_update_research" {
 #   providers = { azurerm = azurerm.research }

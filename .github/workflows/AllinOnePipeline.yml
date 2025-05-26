@@ -92,6 +92,7 @@ jobs:
         run: |    
           DATE=$(date +'%d-%m-%Y')
           PLAN_FILE="${{ inputs.Action }}-${DATE}-${{ github.run_number }}.tfplan"
+          echo "PLAN_FILE=${PLAN_FILE}" >> $GITHUB_ENV
           if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
             terraform plan -destroy -out $PLAN_FILE\
             -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \

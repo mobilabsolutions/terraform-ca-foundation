@@ -90,17 +90,14 @@ jobs:
         id: plan
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
         run: |    
-          DATE=$(date +'%d-%m-%Y')
-          PLAN_FILE="${{ inputs.Action }}-${DATE}-${{ github.run_number }}.tfplan"
-          echo "PLAN_FILE=${PLAN_FILE}" >> $GITHUB_ENV
           if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
-            terraform plan -destroy -out $PLAN_FILE\
+            terraform plan -destroy -out terraform.tfplan\
             -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
             -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
             -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
             -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
           else
-            terraform plan -out $PLAN_FILE\
+            terraform plan -out terraform.tfplan\
             -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
             -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
             -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
@@ -110,5 +107,63 @@ jobs:
       - name: Upload tfplan as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Terraform_Plan
-          path: ${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}/${{ env.PLAN_FILE }}
+          name: Terraform_Plan_${{ inputs.Action }}_${{ inputs.Environment }}-${{ github.sha }}
+          path: ${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}/terraform.tfplan
+
+  tf_apply:
+    name: Terraform Apply
+    needs: tf_plan
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.Environment }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Replace tokens in .tfvars and .tf
+        uses: qetza/replacetokens-action@v1
+        id: replace-tokens
+        with:
+          root: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
+          
+          sources: |
+            *.tfvars
+            providers.tf
+          missing-var-action: none
+          missing-var-log: warn
+          log-level: 'debug'
+          variables: >
+            [
+              ${{ toJSON(vars) }},
+              ${{ toJSON(secrets) }}
+            ]
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
+
+      - name: Terraform Init
+        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
+        run: |
+          terraform init \
+            -backend-config="resource_group_name=${{ vars.TFSTATE_RG }}" \
+            -backend-config="storage_account_name=${{ vars.TFSTATE_STORAGE }}" \
+            -backend-config="container_name=${{ vars.TFSTATE_CONTAINER }}" \
+            -backend-config="key=${{ vars.TFSTATE_KEY }}" \
+            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+            -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
+            -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+      
+      - name: Download Terraform plan artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Terraform_Plan_${{ inputs.Action }}_${{ inputs.Environment }}-${{ github.sha }}
+          path: ${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}/
+            
+      - name: Terraform Apply
+        working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
+        run: |    
+          terraform plan -out terraform.tfplan
+  

@@ -30,6 +30,7 @@ on:
 
 jobs:
   tf_plan:
+    name: Terraform Plan
     runs-on: ubuntu-latest
     environment: ${{ inputs.Environment }}
     env:

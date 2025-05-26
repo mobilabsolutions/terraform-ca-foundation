@@ -89,42 +89,29 @@ jobs:
       - name: Terraform Plan
         id: plan
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
-        run: |
-          terraform plan \
+        run: |    
+          PLAN_FILE="${{ github.run_number }}.tfplan"
+          if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
+            terraform plan -destroy -out $PLAN_FILE \
             -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
             -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
             -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
             -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
-  # echo "ARM_CLIENT_ID env: $ARM_CLIENT_ID"
-  # echo "ARM_CLIENT_ID secret: ${{ secrets.ARM_CLIENT_ID }}"
-  # printenv
-  # echo "${{ secrets.ARM_CLIENT_ID }}"
-
-  # echo "-------terraform.tfvars----------"
-  # cat "${{ github.workspace }}/germanywestcentral/dev/terraform.tfvars"
-  # echo "-------providers----------"
-  # cat "${{ github.workspace }}/germanywestcentral/dev/providers.tf"
-  # echo "-------terraform-research.auto.tfvars----------"
-  # cat "${{ github.workspace }}/germanywestcentral/dev/terraform-research.auto.tfvars"
-  # echo "-------research-foundation.tf----------"
-  # cat "${{ github.workspace }}/germanywestcentral/dev/research-foundation.tf"
-
-
-      # PLAN_FILE="${{ github.run_number }}.tfplan"
-      # if [[ "${{ inputs.Action }}" == "Destroy" ]]; then
-      #   terraform plan -destroy -out $PLAN_FILE \
-      #     -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
-      #     -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-      #     -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-      #     -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
-      # else
-      #   terraform plan -out $PLAN_FILE\
-      #     -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
-      #     -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-      #     -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-      #     -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
-      # fi
-
+          else
+            terraform plan -out $PLAN_FILE\
+            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+            -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
+            -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+          fi
+        
+        # PLAN_FILE="${{ github.workflow }}-${{ github.run_number }}.tfplan"
+        # terraform plan \
+        #   -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+        #   -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+        #   -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
+        #   -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+    
         # - name: Upload tfplan as artifact
         #   uses: actions/upload-artifact@v4
         #   with:

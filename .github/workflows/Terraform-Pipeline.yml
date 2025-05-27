@@ -89,14 +89,12 @@ jobs:
             terraform plan -destroy -out terraform.tfplan\
             -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
             -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-            -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" 
           else
             terraform plan -out terraform.tfplan\
             -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
             -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-            -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" 
           fi
   
       - name: Upload tfplan as artifact

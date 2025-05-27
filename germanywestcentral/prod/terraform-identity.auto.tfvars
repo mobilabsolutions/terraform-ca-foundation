@@ -1,9 +1,9 @@
 idty_virtual_network_address_space = [
-  "#{IdentityVnetAddressSpace}#"
+  "#{Identity_Vnet_Address_Space}#"
 ]
 
 idty_subnet_prefixes = {
-  #{IdentitySubnetPrefixes}#
+  #{Identity_Subnet_Prefixes}#
 }
 
 idty_subnet_delegations = {
@@ -24,9 +24,9 @@ idty_subnet_delegations = {
 }
 
 private_dns_zones = [
-  #{IdentityPrivateDnsZones}#
+  #{Identity_Private_Dns_Zones}#
 ]
 
 dns_forwarding_rules = {
-  #{IdentityDnsForwardingRules}#
+  #{Identity_Dns_Forwarding_Rules}#
 }

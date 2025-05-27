@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "azurerm" {
-    subscription_id = "#{SubscriptionIdManagement}#"
+    subscription_id = "#{Subscription_Id_Management}#"
   }
 
   required_version = ">= 1.11.0"
@@ -14,7 +14,7 @@ terraform {
 
 provider "azurerm" {
   alias           = "connectivity"
-  subscription_id = "#{SubscriptionIdConnectivity}#"
+  subscription_id = "#{Subscription_Id_Connectivity}#"
   tenant_id         = var.tenant_id
   client_id         = var.client_id
   client_secret     = var.client_secret
@@ -23,7 +23,7 @@ provider "azurerm" {
 
 provider "azurerm" {
   alias           = "management"
-  subscription_id = "#{SubscriptionIdManagement}#"
+  subscription_id = "#{Subscription_Id_Management}#"
   tenant_id         = var.tenant_id
   client_id         = var.client_id
   client_secret     = var.client_secret
@@ -32,7 +32,7 @@ provider "azurerm" {
 
 provider "azurerm" {
   alias           = "identity"
-  subscription_id = "#{SubscriptionIdIdentity}#"
+  subscription_id = "#{Subscription_Id_Identity}#"
   tenant_id         = var.tenant_id
   client_id         = var.client_id
   client_secret     = var.client_secret
@@ -41,7 +41,7 @@ provider "azurerm" {
 
 provider "azurerm" {
   alias           = "connected"
-  subscription_id = "#{SubscriptionIdConnected}#"
+  subscription_id = "#{Subscription_Id_Connected}#"
   tenant_id         = var.tenant_id
   client_id         = var.client_id
   client_secret     = var.client_secret
@@ -50,12 +50,12 @@ provider "azurerm" {
 
 locals {
   tags = {
-    OwnerEmail             = "#{TagOwnerEmail}#"
+    OwnerEmail             = "#{Tag_Owner_Email}#"
     Environment            = "#{Environment}#"
-    "Data Confidentiality" = "#{TagDataConfidentiality}#"
-    "Business Criticality" = "#{TagBusinessCriticality}#"
-    "Application ID"       = "#{TagApplicationId}#"
-    "Application Name"     = "#{TagApplicationName}#"
+    "Data Confidentiality" = "#{Tag_Data_Confidentiality}#"
+    "Business Criticality" = "#{Tag_Business_Criticality}#"
+    "Application ID"       = "#{Tag_Application_Id}#"
+    "Application Name"     = "#{Tag_Application_Name}#"
     CreationDate           = formatdate("YYYY-MM-DD'T'08:00:00'0000000Z'", timestamp())
     DeletionDate           = formatdate("YYYY-MM-DD'T'08:00:00'0000000Z'", timeadd(timestamp(), "168h"))
   }

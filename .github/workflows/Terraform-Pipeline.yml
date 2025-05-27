@@ -68,14 +68,13 @@ jobs:
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
         run: |
           terraform init \
-            -backend-config="resource_group_name=${{ vars.TFSTATE_RG }}" \
-            -backend-config="storage_account_name=${{ vars.TFSTATE_STORAGE }}" \
-            -backend-config="container_name=${{ vars.TFSTATE_CONTAINER }}" \
-            -backend-config="key=${{ vars.TFSTATE_KEY }}" \
-            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+            -backend-config="resource_group_name=${{ vars.TFSTATERESOURCEGROUPNAME }}" \
+            -backend-config="storage_account_name=${{ vars.TFSTATESTORAGEACCOUNTNAME }}" \
+            -backend-config="container_name=${{ vars.TFSTATECONTAINERNAME }}" \
+            -backend-config="key=github-${{ inputs.Environment }}-terraform.tfstate" \
+            -var="client_id=${{ vars.ARM_CLIENT_ID }}" \
             -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-            -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+            -var="tenant_id=${{ vars.ARM_TENANT_ID }}" 
 
       - name: Terraform Validate
         working-directory: "${{ github.workspace }}/${{ inputs.Location }}/${{ inputs.Environment }}"
@@ -87,14 +86,14 @@ jobs:
         run: |    
           if [[ "${{ inputs.Action }}" == "destroy" ]]; then
             terraform plan -destroy -out terraform.tfplan\
-            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+            -var="client_id=${{ vars.ARM_CLIENT_ID }}" \
             -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" 
+            -var="tenant_id=${{ vars.ARM_TENANT_ID }}" 
           else
             terraform plan -out terraform.tfplan\
-            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+            -var="client_id=${{ vars.ARM_CLIENT_ID }}" \
             -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" 
+            -var="tenant_id=${{ vars.ARM_TENANT_ID }}" 
           fi
   
       - name: Upload tfplan as artifact
@@ -145,10 +144,9 @@ jobs:
             -backend-config="storage_account_name=${{ vars.TFSTATE_STORAGE }}" \
             -backend-config="container_name=${{ vars.TFSTATE_CONTAINER }}" \
             -backend-config="key=${{ vars.TFSTATE_KEY }}" \
-            -var="client_id=${{ secrets.ARM_CLIENT_ID }}" \
+            -var="client_id=${{ vars.ARM_CLIENT_ID }}" \
             -var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
-            -var="tenant_id=${{ secrets.ARM_TENANT_ID }}" \
-            -var="subscription_id=${{ secrets.ARM_SUBSCRIPTION_ID }}"
+            -var="tenant_id=${{ vars.ARM_TENANT_ID }}"
       
       - name: Download Terraform plan artifact
         uses: actions/download-artifact@v4

@@ -6,7 +6,7 @@ terraform {
     }
   }
   # backend "azurerm" {
-  #   subscription_id = "#{SubscriptionIdManagement}#"
+  #   subscription_id = "#{Subscription_Id_Management}#"
   # }
 
   required_version = ">= 1.11.0"
@@ -14,7 +14,7 @@ terraform {
 
 provider "azurerm" {
   alias           = "research"
-  # subscription_id = "#{SubscriptionIdResearchAndDevelopment}#"
+  # subscription_id = "#{Subscription_Id_Research_And_Development}#"
   # client_id       = "#{ARM_CLIENT_ID}#"
   # client_secret   = "#{ARM_CLIENT_SECRET}#"
   # tenant_id       = "#{ARM_TENANT_ID}#"
@@ -27,14 +27,14 @@ provider "azurerm" {
 
 locals {
   tags = {
-    "Application Name"     = "#{TagApplicationName}#"
-    "Application ID"       = "#{TagApplicationId}#"
-    "Business Criticality" = "#{TagBusinessCriticality}#"
+    "Application Name"     = "#{Tag_Application_Name}#"
+    "Application ID"       = "#{Tag_Application_Id}#"
+    "Business Criticality" = "#{Tag_Business_Criticality}#"
     CreationDate           = formatdate("YYYY-MM-DD'T'08:00:00'0000000Z'", timestamp())
-    "Data Confidentiality" = "#{TagDataConfidentiality}#"
+    "Data Confidentiality" = "#{Tag_Data_Confidentiality}#"
     DeletionDate           = formatdate("YYYY-MM-DD'T'08:00:00'0000000Z'", timeadd(timestamp(), "168h"))
     Environment            = "#{Environment}#"
-    OwnerEmail             = "#{TagOwnerEmail}#"
+    OwnerEmail             = "#{Tag_Owner_Email}#"
   }
 
   allowed_tags_list = {

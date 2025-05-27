@@ -1,4 +1,4 @@
 location              = "#{Location}#"
-location_abbreviation = "#{LocationAbbreviation}#"
+location_abbreviation = "#{Location_Abbreviation}#"
 environment           = "#{Environment}#"
-time_zone             = "#{TimeZone}#"
+time_zone             = "#{Time_Zone}#"

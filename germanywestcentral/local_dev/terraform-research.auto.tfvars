@@ -1,9 +1,9 @@
 rsch_virtual_network_address_space = [
-  "#{ResearchVnetAddressSpace}#"
+  "#{Research_Vnet_Address_Space}#"
 ]
 
 rsch_subnet_prefixes = {
-  #{ResearchSubnetPrefixes}#
+  #{Research_Subnet_Prefixes}#
 }
 
 rsch_subnet_delegations = {
@@ -24,9 +24,9 @@ rsch_subnet_delegations = {
 }
 
 action_group_email_receivers = {
-  #{ResearchActionGroupEmailReceivers}#
+  #{Research_Action_Group_Email_Receivers}#
 }
 
 dns_forwarding_rules = {
-  #{ResearchDnsForwardingRules}#
+  #{Research_Dns_Forwarding_Rules}#
 }

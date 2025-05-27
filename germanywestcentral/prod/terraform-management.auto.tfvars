@@ -1,11 +1,11 @@
 mgmt_virtual_network_address_space = [
-  "#{ManagementVnetAddressSpace}#"
+  "#{Management_Vnet_Address_Space}#"
 ]
 
 mgmt_subnet_prefixes = {
-  #{ManagementSubnetPrefixes}#
+  #{Management_Subnet_Prefixes}#
 }
 
 action_group_email_receivers = {
-  #{ManagementActionGroupEmailReceivers}#
+  #{Management_Action_Group_Email_Receivers}#
 }

@@ -1,7 +1,7 @@
 conn_virtual_network_address_space = [
-  "#{ConnectedVnetAddressSpace}#"
+  "#{Connected_Vnet_Address_Space}#"
 ]
 
 conn_subnet_prefixes = {
-  #{ConnectedSubnetPrefixes}#
+  #{Connected_Subnet_Prefixes}#
 }

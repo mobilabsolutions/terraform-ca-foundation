@@ -1,4 +1,5 @@
 name: Terraform Pipeline
+run-name: "${{ inputs.Action }}-Azure-Infra-${{ inputs.Environment }}-${{ github.actor }}-${{ github.run_number }}"
 
 on:
   workflow_dispatch:

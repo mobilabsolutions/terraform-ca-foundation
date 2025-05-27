@@ -384,7 +384,7 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting_grs_001" {
   }
 
   metric {
-    category = "Health"
+    category = "AllMetrics"
   }
 }
 

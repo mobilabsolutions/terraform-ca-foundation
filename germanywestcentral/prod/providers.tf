@@ -15,36 +15,36 @@ terraform {
 provider "azurerm" {
   alias           = "connectivity"
   subscription_id = "#{Subscription_Id_Connectivity}#"
-  tenant_id         = var.tenant_id
-  client_id         = var.client_id
-  client_secret     = var.client_secret
+  tenant_id       = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
   features {}
 }
 
 provider "azurerm" {
   alias           = "management"
   subscription_id = "#{Subscription_Id_Management}#"
-  tenant_id         = var.tenant_id
-  client_id         = var.client_id
-  client_secret     = var.client_secret
+  tenant_id       = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
   features {}
 }
 
 provider "azurerm" {
   alias           = "identity"
   subscription_id = "#{Subscription_Id_Identity}#"
-  tenant_id         = var.tenant_id
-  client_id         = var.client_id
-  client_secret     = var.client_secret
+  tenant_id       = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
   features {}
 }
 
 provider "azurerm" {
   alias           = "connected"
   subscription_id = "#{Subscription_Id_Connected}#"
-  tenant_id         = var.tenant_id
-  client_id         = var.client_id
-  client_secret     = var.client_secret
+  tenant_id       = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
   features {}
 }
 

@@ -13,7 +13,7 @@ terraform {
 }
 
 provider "azurerm" {
-  alias           = "research"
+  alias = "research"
   # subscription_id = "#{Subscription_Id_Research_And_Development}#"
   # client_id       = "#{ARM_CLIENT_ID}#"
   # client_secret   = "#{ARM_CLIENT_SECRET}#"

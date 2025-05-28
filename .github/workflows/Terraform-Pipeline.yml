@@ -122,8 +122,8 @@ jobs:
           sources: |
             *.tfvars
             providers.tf
-          missing-var-action: none
-          missing-var-log: warn
+          missing-var-action: keep
+          missing-var-log: error
           log-level: 'debug'
           variables: >
             [
